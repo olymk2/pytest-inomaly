@@ -1,0 +1,10 @@
+site_name: pytest-Inomaly
+site_description: A simple image diff plugin for pytest
+site_author: Oliver Marks
+
+theme: readthedocs
+
+repo_url: https://github.com/olymk2/pytest-Inomaly
+
+pages:
+- Home: index.md
