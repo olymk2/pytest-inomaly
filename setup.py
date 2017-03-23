@@ -21,7 +21,7 @@ setup(
     license='MIT',
     url='https://github.com/olymk2/pytest-Inomaly',
     description='A simple image diff plugin for pytest',
-    long_description=read('README.rst'),
+    long_description=read('README.md'),
     py_modules=['pytest_inomaly'],
     install_requires=['pytest>=2.9.2', 'scipy'],
     classifiers=[
