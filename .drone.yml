@@ -1,0 +1,25 @@
+workspace:
+  base: /drone
+  path: src
+
+pipeline:
+  tests:
+    image: python:3.5
+    environment:
+      - PYTHONUSERBASE=/drone/src/cache/packages
+    commands:
+      - pip install -r /drone/src/requirements.txt
+      - pip freeze
+      - pip install .
+      - py.test
+
+publish:
+  pypi:
+    repository: https://pypi.python.org/pypi
+    username: {PYPI_USER}
+    password: {PYPI_PASS}
+    distributions:
+      - sdist
+      # - bdist_wheel
+    when:
+      event: [ tag ]
