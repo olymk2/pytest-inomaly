@@ -20,6 +20,5 @@ publish:
     password: {PYPI_PASS}
     distributions:
       - sdist
-      # - bdist_wheel
-    when:
-      event: [ tag ]
+    # when:
+    #   event: [ tag ]

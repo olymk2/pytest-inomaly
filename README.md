@@ -1,6 +1,7 @@
 pytest-Inomaly
 ===================================
 
+[![Build Status](https://ci.digitaloctave.com/api/badges/oly/pytest-inomaly/status.svg)](https://ci.digitaloctave.com/oly/pytest-inomaly)
 
 A simple image diff plugin for pytest currently provides two new methods, use full for testing image related code and making sure the results do not change unexpectedly.
 
