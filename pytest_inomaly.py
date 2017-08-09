@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import pytest
-import scipy
-from numpy import array, float64, concatenate
 from scipy.misc import imread
 from scipy.linalg import norm
 
@@ -17,16 +15,25 @@ def pytest_addoption(parser):
         help='Set the value for the fixture "bar".'
     )
 
-    parser.addini('HELLO', 'Dummy pytest.ini setting')
+    group.addoption(
+        '--update',
+        action='store',
+        dest='update_images',
+        default=False,
+        help='Test images have changed, so replace with current results, should be visually tested first'
+    )
 
 
-def compare_images(image_path1, image_path2):
-    # file_fixture_path = '%s' % image1
-    # file_actual_path = '%s' % image2
+def pytest_configure(config):
+    pytest.update_images = config.getoption('update_images')
+    pytest.idiff = idiff
+    pytest.idiff_variance = idiff_variance
 
-    do_assets_exist(image_path1, image_path2)
+
+def compare_images(actual_results, expected_results):
+    do_assets_exist(actual_results, expected_results)
     # Make diffed results positive
-    diff = abs(imread(image_path1).astype(float) - imread(image_path2).astype(float))
+    diff = abs(imread(actual_results).astype(float) - imread(expected_results).astype(float))
 
     # L1 Norm:(Taxicab norm or Manhattan norm)
     l1_norm = sum(diff)
@@ -34,32 +41,32 @@ def compare_images(image_path1, image_path2):
     # L0-norm :Total number of non-zero elements in a vector. It is a cardinality function
     l0_norm = norm(diff.ravel(), 0)
 
-    print(l0_norm / diff.size)
     return l0_norm / diff.size
 
 
-def do_assets_exist(image_path1, image_path2):
-    if not os.path.exists(image_path1):
-        raise IOError
-    if not os.path.exists(image_path2):
+def do_assets_exist(actual_results, expected_results):
+    if not os.path.exists(expected_results):
         raise IOError
 
+    if pytest.update_images is True:
+        with open(actual_results, 'r') as actual_file:
+            with open(expected_results, 'w') as expected_file:
+                expected_file.write(actual_result.read())
 
-def pytest_namespace():
-    def idiff(image_path1, image_path2, tolerance=0.0):
-        norm = compare_images(
-            image_path1 = '%s' % image_path1,
-            image_path2 = '%s' % image_path2)
-        if norm <= tolerance:
-            return True
-        return False
+    if not os.path.exists(actual_results):
+        raise IOError
 
-    def idiff_variance(image_path1, image_path2, tolerance=0.0):
-        return compare_images(
-            image_path1 = '%s' % image_path1,
-            image_path2 = '%s' % image_path2)
 
-    return {'_assumption_locals': [],
-            '_failed_assumptions': [],
-            'idiff': idiff}
+def idiff(actual_results, expected_results, tolerance=0.0):
+    norm = compare_images(
+        actual_results='%s' % actual_results,
+        expected_results='%s' % expected_results)
+    if norm <= tolerance:
+        return True
+    return False
 
+
+def idiff_variance(actual_results, expected_results, tolerance=0.0):
+    return compare_images(
+        actual_results='%s' % actual_results,
+        expected_results='%s' % expected_results)
