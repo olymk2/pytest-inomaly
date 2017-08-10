@@ -23,6 +23,7 @@ setup(
     description='A simple image diff plugin for pytest',
     long_description=read('README.md'),
     py_modules=['pytest_inomaly'],
+    setup_requires=['numpy', 'scipy'],
     install_requires=['pytest>=2.9.2', 'scipy'],
     classifiers=[
         'Development Status :: 4 - Beta',
