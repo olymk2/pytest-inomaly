@@ -26,3 +26,10 @@ def test_help_message(testdir):
     ])
 
 
+def test_replace_images(testdir):
+    pytest.update_images = True
+    test_directory = os.path.abspath(os.path.dirname(__file__))
+    result = pytest.idiff(
+        '%s/fixture/original.png' % (test_directory),
+        '%s/fixture/original_updated.png' % (test_directory))
+    assert result is True

@@ -45,15 +45,15 @@ def compare_images(actual_results, expected_results):
 
 
 def do_assets_exist(actual_results, expected_results):
-    if not os.path.exists(expected_results):
+    if not os.path.exists(actual_results):
         raise IOError
 
     if pytest.update_images is True:
-        with open(actual_results, 'r') as actual_file:
-            with open(expected_results, 'w') as expected_file:
-                expected_file.write(actual_result.read())
+        with open(actual_results, 'rb') as actual_file:
+            with open(expected_results, 'wb') as expected_file:
+                expected_file.write(actual_file.read())
 
-    if not os.path.exists(actual_results):
+    if not os.path.exists(expected_results):
         raise IOError
 
 

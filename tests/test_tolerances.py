@@ -3,6 +3,11 @@ import os
 import pytest
 
 
+@pytest.yield_fixture(autouse=True)
+def run_around_tests():
+    pytest.update_images = False
+
+
 def test_exact_antialiasing_difference(testdir):
     test_directory = os.path.abspath(os.path.dirname(__file__))
     result = pytest.idiff(
