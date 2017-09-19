@@ -4,6 +4,8 @@ import pytest
 from scipy.misc import imread
 from scipy.linalg import norm
 
+updated_files = []
+
 
 def pytest_addoption(parser):
     group = parser.getgroup('Inomaly')
@@ -22,6 +24,15 @@ def pytest_addoption(parser):
         default=False,
         help='Test images have changed, so replace with current results, should be visually tested first'
     )
+
+
+def pytest_sessionfinish(session, exitstatus):
+    """ whole test run finishes. """
+    if not updated_files:
+        return
+    print('\n\nInomaly Complete, Updated this file list\n')
+    for filepath in updated_files:
+        print('\t%s\n' % filepath)
 
 
 def pytest_configure(config):
@@ -52,6 +63,7 @@ def do_assets_exist(actual_results, expected_results):
         with open(actual_results, 'rb') as actual_file:
             with open(expected_results, 'wb') as expected_file:
                 expected_file.write(actual_file.read())
+                updated_files.append(expected_results)
 
     if not os.path.exists(expected_results):
         raise IOError
