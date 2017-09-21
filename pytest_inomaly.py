@@ -19,7 +19,7 @@ def pytest_addoption(parser):
 
     group.addoption(
         '--update',
-        action='store',
+        action='store_true',
         dest='update_images',
         default=False,
         help='Test images have changed, so replace with current results, should be visually tested first'
@@ -30,9 +30,9 @@ def pytest_sessionfinish(session, exitstatus):
     """ whole test run finishes. """
     if not updated_files:
         return
-    print('\n\nInomaly Complete, Updated this file list\n')
+    print('\n\nInomaly Complete, Updated these files\n')
     for filepath in updated_files:
-        print('\t%s\n' % filepath)
+        print('\t%s' % filepath)
 
 
 def pytest_configure(config):

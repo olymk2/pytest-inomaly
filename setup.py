@@ -13,7 +13,7 @@ def read(fname):
 
 setup(
     name='pytest-Inomaly',
-    version='0.2.2',
+    version='0.2.3',
     author='Oliver Marks',
     author_email='oly@digitaloctave.com',
     maintainer='Oliver Marks',
