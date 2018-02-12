@@ -13,7 +13,7 @@ def read(fname):
 
 setup(
     name='pytest-Inomaly',
-    version='0.2.3',
+    version='0.2.4',
     author='Oliver Marks',
     author_email='oly@digitaloctave.com',
     maintainer='Oliver Marks',
@@ -24,7 +24,7 @@ setup(
     long_description=read('README.md'),
     py_modules=['pytest_inomaly'],
     setup_requires=['numpy', 'scipy'],
-    install_requires=['pytest>=2.9.2', 'scipy'],
+    install_requires=['pytest>=2.9.2', 'scipy', 'numpy'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Framework :: Pytest',
